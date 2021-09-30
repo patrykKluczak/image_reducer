@@ -1,5 +1,15 @@
 import React from "react";
 
-const Home = () => <div>dzialam</div>;
+import Button from "../../components/Button";
+import Range from "../../components/Range";
+
+const Home = () => (
+  <div>
+    <Button label="Open file" onClickFunc={() => null} />
+
+    <Button isDisabled label="Open file" onClickFunc={() => null} />
+    <Range />
+  </div>
+);
 
 export default Home;
