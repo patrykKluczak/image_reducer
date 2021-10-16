@@ -11,5 +11,7 @@ export const variables = {
     greyLabel: "#ACACAC",
     snuff: "#DED9E9",
     electricViolet: "#6D26F6",
+    snuffDark: "#D1CFE8",
+    alto: "#c1bfbf",
   },
 };

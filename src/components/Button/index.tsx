@@ -7,10 +7,16 @@ export interface ButtonProps {
   label: string;
   onClickFunc: () => void;
   isDisabled?: boolean;
+  props?: any;
 }
 
-const Button = ({ isDisabled = false, label, onClickFunc }: ButtonProps) => (
-  <Wrapper isDisabled={isDisabled} onClick={onClickFunc}>
+const Button = ({
+  isDisabled = false,
+  label,
+  onClickFunc,
+  ...props
+}: ButtonProps) => (
+  <Wrapper isDisabled={isDisabled} onClick={onClickFunc} {...props}>
     <Text isUpperCase isBold isDisabled>
       {label}
     </Text>
