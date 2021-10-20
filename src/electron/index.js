@@ -1,6 +1,8 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+const setMenu = require("./menu");
+const setGlobalShortcut = require("./shortcut");
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -15,7 +17,13 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
+  const menu = setMenu(mainWindow);
+
+  console.log("---- Menu ", menu);
   isDev && mainWindow.webContents.openDevTools();
+  const mainMenu = Menu.buildFromTemplate(menu);
+  Menu.setApplicationMenu(mainMenu);
+  setGlobalShortcut(mainWindow);
 }
 
 app.whenReady().then(() => {
