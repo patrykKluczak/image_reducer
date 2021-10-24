@@ -1,6 +1,6 @@
 const isDev = require("electron-is-dev");
 const isMac = process.platform === "darwin";
-const actions = require("./actions/openFile");
+const actionsOpen = require("./actions/openFile");
 
 module.exports = function (mainWindow) {
   return [
@@ -23,7 +23,7 @@ module.exports = function (mainWindow) {
           label: "Open File",
           accelerator: "CmdOrCtrl+O",
           click() {
-            actions.openFile(mainWindow);
+            actionsOpen.openFile(mainWindow);
           },
         },
       ],
