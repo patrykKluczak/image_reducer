@@ -1,10 +1,10 @@
 const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const setMenu = require("./menu");
-const setGlobalShortcut = require("./shortcut");
-const actionsOpen = require("./actions/openFile");
-const actionsSave = require("./actions/saveFile");
+const setMenu = require("./electron/menu");
+const setGlobalShortcut = require("./electron/shortcut");
+const actionsOpen = require("./electron/actions/openFile");
+const actionsSave = require("./electron/actions/saveFile");
 
 let mainWindow = null;
 
