@@ -18,6 +18,7 @@ interface Data {
 
 interface SaveResponse {
   success: boolean;
+  error: string;
 }
 
 const Home = () => {
@@ -31,6 +32,7 @@ const Home = () => {
       setData({ path: data.path, name: name });
     });
     ipcRenderer.on("file:saveResponse", (e, data: SaveResponse) => {
+      console.log("file response ", data.error);
       setData({
         path: "",
         name: data.success

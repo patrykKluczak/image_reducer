@@ -22,6 +22,7 @@ exports.saveFile = function (obj, mainWindow) {
       });
       mainWindow.webContents.send("file:saveResponse", {
         success: true,
+        error: ``,
       });
     }
   })(obj);
