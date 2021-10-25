@@ -15,6 +15,6 @@ exports.openFile = function (mainWindow) {
       });
     })
     .catch((err) => {
-      console.log(err);
+      console.warn(err);
     });
 };

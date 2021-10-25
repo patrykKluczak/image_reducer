@@ -1,16 +1,16 @@
 const slash = require("slash");
+const path = require("path");
 const imagemin = require("imagemin");
 const imageminMozJpeg = require("imagemin-mozjpeg");
 const imageminPngquant = require("imagemin-pngquant");
 
-exports.saveFile = function (obj) {
+exports.saveFile = function (obj, mainWindow) {
   (async function (obj) {
-    console.log("PK async save func ", obj);
-    const { image, path: imagePath, qualityImg } = obj;
-    const shrink = path.dirname(imagePath) + "/imageReduce";
+    const { path: imagePath, qualityImg } = obj;
+    const shrink = path.dirname(imagePath) + "/ImageReduce";
     const qualityPng = qualityImg / 100;
 
-    if (image && imagePath) {
+    if (imagePath) {
       await imagemin([slash(imagePath)], {
         destination: shrink,
         plugins: [

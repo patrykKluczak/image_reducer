@@ -10,8 +10,8 @@ let mainWindow = null;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 1024,
+    width: 764,
+    height: 764,
     resizable: false,
     webPreferences: {
       nodeIntegration: true,
@@ -34,7 +34,9 @@ function createWindow() {
 }
 
 ipcMain.on("file:open", () => actionsOpen.openFile(mainWindow));
-ipcMain.on("file:save", (e, option) => actionsSave.saveFile(option));
+ipcMain.on("file:save", (e, option) =>
+  actionsSave.saveFile(option, mainWindow)
+);
 
 app.whenReady().then(() => {
   createWindow();

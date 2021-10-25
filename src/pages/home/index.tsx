@@ -12,8 +12,8 @@ import SaveButton from "./styled/SaveButton";
 const { ipcRenderer } = window.require("electron");
 
 interface Data {
-  image: string;
   path: string;
+  name: string;
 }
 
 interface SaveResponse {
@@ -21,27 +21,42 @@ interface SaveResponse {
 }
 
 const Home = () => {
-  const [data, setData] = useState({ image: "", path: "" });
-  const [success, setSuccess] = useState(false);
+  const [data, setData] = useState({ path: "", name: "" });
   const [quality, getQuality] = useState(50);
+  let timer: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     ipcRenderer.on("file:openResponse", (e, data: Data) => {
-      console.log("Data ", data);
-      setData(data);
+      const name = data.path.substring(data.path.lastIndexOf("/") + 1);
+      setData({ path: data.path, name: name });
     });
     ipcRenderer.on("file:saveResponse", (e, data: SaveResponse) => {
-      console.log("Data Success", data.success);
-      setSuccess(data.success);
+      setData({
+        path: "",
+        name: data.success
+          ? "Your file was reduced successfully"
+          : "Something went wrong, please check the image format and try again.",
+      });
+
+      timer = setTimeout(() => {
+        setData({ path: "", name: "" });
+      }, 3000);
+      return () => clearTimeout(timer);
     });
   }, []);
 
   return (
     <MainWrapper>
       <FileWrapper>
-        <DragAndDrop />
+        <DragAndDrop callback={setData} />
         <FileText>
-          <span>Drag'n'drop</span> or <span>browse</span> the file here
+          {data.name !== "" ? (
+            <span>{data.name}</span>
+          ) : (
+            <>
+              <span>Drag'n'drop</span> or <span>browse</span> the file here
+            </>
+          )}
         </FileText>
         <OpenButton
           label="Open file"
@@ -49,13 +64,12 @@ const Home = () => {
         />
       </FileWrapper>
 
-      <Range callBack={getQuality} />
+      <Range callback={getQuality} />
       <SaveButton
-        isDisabled={data.image === ""}
+        isDisabled={data.path === ""}
         label="Save file"
         onClickFunc={() =>
           ipcRenderer.send("file:save", {
-            image: data.image,
             path: data.path,
             qualityImg: quality,
           })
