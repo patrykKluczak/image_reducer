@@ -1,15 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { FileUploader } from "react-drag-drop-files";
 
 import Wrapper from "./styled/Wrapper";
 
-const fileTypes = ["JPG", "JPEG", "PNG"];
+interface DragAndDropProps {
+  callback: any;
+}
 
-const DragAndDrop = () => {
-  const [file, setFile] = useState(null);
+const DragAndDrop = ({ callback }: DragAndDropProps) => {
+  const fileTypes = ["JPG", "JPEG", "PNG"];
   const handleChange = (file: any) => {
-    setFile(file);
+    callback({ name: file.name, path: file.path });
   };
+
   return (
     <Wrapper>
       <FileUploader

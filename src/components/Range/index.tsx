@@ -7,6 +7,7 @@ import Dot from "./styled/Dot";
 
 interface RangeProps {
   props?: any;
+  callback: any;
 }
 
 const Range = ({ ...props }: RangeProps) => {
@@ -28,8 +29,10 @@ const Range = ({ ...props }: RangeProps) => {
   };
 
   const handleOnChange = (v: number) => {
+    const { callback } = props;
     debounce(v, value);
     setValue(v);
+    callback(v);
   };
 
   return (

@@ -1,12 +1,22 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, Menu, ipcMain } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
+const setMenu = require("./menu");
+const setGlobalShortcut = require("./shortcut");
+const actionsOpen = require("./actions/openFile");
+const actionsSave = require("./actions/saveFile");
+
+let mainWindow = null;
 
 function createWindow() {
-  const mainWindow = new BrowserWindow({
-    width: 1024,
-    height: 1024,
+  mainWindow = new BrowserWindow({
+    width: 764,
+    height: 764,
     resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+      contextIsolation: false,
+    },
   });
 
   mainWindow.loadURL(
@@ -15,8 +25,18 @@ function createWindow() {
       : `file://${path.join(__dirname, "../build/index.html")}`
   );
 
+  const menu = setMenu(mainWindow);
+
   isDev && mainWindow.webContents.openDevTools();
+  const mainMenu = Menu.buildFromTemplate(menu);
+  Menu.setApplicationMenu(mainMenu);
+  setGlobalShortcut(mainWindow);
 }
+
+ipcMain.on("file:open", () => actionsOpen.openFile(mainWindow));
+ipcMain.on("file:save", (e, option) =>
+  actionsSave.saveFile(option, mainWindow)
+);
 
 app.whenReady().then(() => {
   createWindow();
