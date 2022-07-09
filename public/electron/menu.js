@@ -1,7 +1,6 @@
-// const isDev = require("electron-is-dev");
+const isDev = require("electron-is-dev");
 const isMac = process.platform === "darwin";
 const actionsOpen = require("./actions/openFile");
-const isDev = true;
 
 module.exports = function (mainWindow) {
   return [
